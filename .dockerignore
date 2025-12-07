@@ -1,0 +1,34 @@
+# Environment
+.env
+.venv
+env/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Git
+.git/
+.gitignore
+.dockerignore
+
+# Docker/K8s
+Dockerfile
+docker-compose.yaml
+k8s/
+monitoring/
+
+# Documentation/Assets
+images/
+README.md
+materi/
+
+# IDE
+.vscode/
+.idea/
+
+# Local Data/Logs
+chroma_db/
+logs/
+*.log

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anime-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anime-backend
+  template:
+    metadata:
+      labels:
+        app: anime-backend
+    spec:
+      containers:
+        - name: backend
+          image: airecommender001.azurecr.io/anime-recommender:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+          ports:
+            - containerPort: 8000
+          env:
+            - name: AZURE_OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: anime-secrets
+                  key: AZURE_OPENAI_APIKEY
+            - name: AZURE_OPENAI_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: anime-secrets
+                  key: AZURE_OPENAI_ENDPOINT
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: anime-backend-service
+spec:
+  selector:
+    app: anime-backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP

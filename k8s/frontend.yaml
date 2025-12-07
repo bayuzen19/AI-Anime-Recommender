@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anime-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anime-frontend
+  template:
+    metadata:
+      labels:
+        app: anime-frontend
+    spec:
+      containers:
+        - name: anime-frontend
+          image: airecommender001.azurecr.io/anime-recommender:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            [
+              "streamlit",
+              "run",
+              "app/app.py",
+              "--server.port",
+              "8501",
+              "--server.address",
+              "0.0.0.0",
+            ]
+          ports:
+            - containerPort: 8501
+          env:
+            - name: FASTAPI_URL
+              value: "http://anime-backend-service:8000"
+          volumeMounts:
+            - name: code-volume
+              mountPath: /app/app/app.py
+              subPath: app.py
+      volumes:
+        - name: code-volume
+          configMap:
+            name: anime-frontend-code
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: anime-frontend-service
+spec:
+  selector:
+    app: anime-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8501
+  type: LoadBalancer
