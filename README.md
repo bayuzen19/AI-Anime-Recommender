@@ -6,7 +6,7 @@ An AI-powered anime recommendation engine leveraging **Retrieval Augmented Gener
 
 The following diagram illustrates the complete system workflow, from data ingestion to user inference:
 
-![End-to-End Architecture](images/architecture_diagram_e2e.svg)
+![End-to-End Architecture](images/e2e_archi.svg)
 
 ## 🚀 Key Features
 
@@ -250,7 +250,7 @@ Follow this end-to-end guide to deploy the application to the cloud.
 
 #### Deployment Workflow
 
-![Deployment Workflow](images/flow_deploy_azure.png)
+![Deployment Workflow](images/archi_deploy.png)
 
 #### Step-by-Step Deployment Guide
 
